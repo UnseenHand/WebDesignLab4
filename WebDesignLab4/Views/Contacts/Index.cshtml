@@ -1,0 +1,51 @@
+﻿@model IEnumerable<WebDesignLab4.Models.Contacts>
+
+<h2>Contacts</h2>
+
+<p>
+    <a asp-action="Create">Create contact</a>
+</p>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderBy(p => p.Id))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <th>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </th>
+                @*<td>
+                    @Html.ActionLink("Edit","Edit" ,"News", new {id = item.Id} )@* Edit |
+                    @Html.ActionLink("Details", "View" ,"News", new {id = item.Id} )@* View |
+                    @Html.ActionLink("Delete", "Delete", "News", new {id = item.Id})
+                </td>*@
+            </tr>
+        }
+    </tbody>
+</table>
