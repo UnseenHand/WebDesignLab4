@@ -5,11 +5,12 @@ namespace WebDesignLab4.DAL
 {
     public class NewsContext : DbContext
     {
-        public NewsContext() { }
+        public NewsContext() { Database.EnsureCreated(); }
 
         public NewsContext(DbContextOptions options) : base(options) { Database.EnsureCreated(); }
 
         public DbSet<News> News { get; set; }
+        public DbSet<Contacts> Contacts { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

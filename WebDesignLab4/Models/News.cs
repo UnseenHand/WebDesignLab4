@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data.Entity;
 
 namespace WebDesignLab4.Models
 {
