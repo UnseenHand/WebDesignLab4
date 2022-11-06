@@ -1,0 +1,51 @@
+﻿@model IEnumerable<WebDesignLab4.Models.News>
+
+<h2>News</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Caption)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PostDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderBy(p => p.Id))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Caption)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <th>
+                    @Html.DisplayFor(modelItem => item.PostDate)
+                </th>
+                <td>
+                    @Html.ActionLink("Edit","Edit" ,"News", new {id = item.Id} )@* Edit*@ |
+                    @Html.ActionLink("Details", "View" ,"News", new {id = item.Id} )@* View *@ |
+                    @Html.ActionLink("Delete", "Delete", "News", new {id = item.Id})
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
