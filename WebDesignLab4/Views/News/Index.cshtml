@@ -24,23 +24,23 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
+    <tbody class="newsBody">
         @foreach (var item in Model.OrderBy(p => p.Id))
         {
             <tr>
-                <td>
+                <td class="column">
                     @Html.DisplayFor(modelItem => item.Id)
                 </td>
-                <td>
+                <td class="column">
                     @Html.DisplayFor(modelItem => item.Caption)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
+                <td class="column">
+                    @Html.Raw("<pre>"+ Html.Encode(item.Description) + "</pre>")
                 </td>
-                <th>
+                <td class="column">
                     @Html.DisplayFor(modelItem => item.PostDate)
-                </th>
-                <td>
+                </td>
+                <td class="column">
                     @Html.ActionLink("Edit","Edit" ,"News", new {id = item.Id} )@* Edit*@ |
                     @Html.ActionLink("Details", "View" ,"News", new {id = item.Id} )@* View *@ |
                     @Html.ActionLink("Delete", "Delete", "News", new {id = item.Id})
@@ -49,3 +49,12 @@
         }
     </tbody>
 </table>
+
+<style>
+    .newsBody{
+        vertical-align: top;
+    }
+    .column{
+        padding-right: 30px;
+    }
+</style>

@@ -22,13 +22,15 @@ namespace WebDesignLab4.Controllers
         {
             await db.News.AddAsync(news);
             await db.SaveChangesAsync();
+            ModelState.Clear();
             return View();
         }
 
         public IActionResult Create()
         {
             //needs better format
-            return View(new News() { PostDate = DateTime.Now });
+            var nowRounded = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            return View(new News() { PostDate = DateTime.Parse(nowRounded) });
         }
 
         public IActionResult Delete()
@@ -37,11 +39,6 @@ namespace WebDesignLab4.Controllers
         }
 
         public IActionResult Edit()
-        {
-            return View();
-        }
-
-        public IActionResult Insert()
         {
             return View();
         }
