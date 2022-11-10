@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Linq;
@@ -20,35 +21,67 @@ namespace WebDesignLab4.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(News news)
         {
-            await db.News.AddAsync(news);
-            await db.SaveChangesAsync();
-            return View();
+            if (ModelState.IsValid)
+            {
+                await db.News.AddAsync(news);
+                await db.SaveChangesAsync();
+                ModelState.Clear();
+            }
+            return RedirectToAction("Create");
         }
 
         public IActionResult Create()
         {
             //needs better format
-            return View(new News() { PostDate = DateTime.Now });
+            var nowRounded = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            return View(new News() { PostDate = DateTime.Parse(nowRounded) });
         }
 
-        public IActionResult Delete()
+        public async Task<IActionResult> Delete(int id)
         {
-            return View();
+            db.News.Remove(await db.News.FindAsync(id));
+            await db.SaveChangesAsync();
+            return View("Index", db.News);
         }
 
-        public IActionResult Edit()
+        public async Task<IActionResult> Details(int id)
         {
-            return View();
+            News news = await db.News.FindAsync(id);
+            if (news != null)
+            {
+                return View(news);
+            }
+            return View("NewsNotFound", id);
         }
 
-        public IActionResult Insert()
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
         {
-            return View();
+            News news = await db.News.FindAsync(id);
+            if (news != null)
+            {
+                return View(news);
+            }
+            return View("NewsNotFound", id);
+
         }
 
-        public IActionResult Index()
+        [HttpPost]
+        public async Task<IActionResult> Edit(News news)
         {
-            var data = db.News.Select(n => n).ToList();
+            if (!ModelState.IsValid)
+            {
+                return View(db.News);
+            }
+            db.News.Attach(news);
+            db.Entry(news).Property(n => n.Caption).IsModified = true;
+            await db.SaveChangesAsync();
+            return View("Index", db.News);
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var data = await db.News.Select(n => n).ToListAsync();
             return View(data);
         }
     }

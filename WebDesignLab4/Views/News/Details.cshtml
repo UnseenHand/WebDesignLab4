@@ -1,0 +1,37 @@
+﻿@model WebDesignLab4.Models.News;
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Caption)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PostDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @Html.DisplayFor(model => model.Caption)
+            </td>
+            <td>
+                @Html.Raw("<pre>"+ Html.Encode(Model.Description) + "</pre>")
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.PostDate)
+            </td>
+        </tr>
+    </tbody>
+</table>
