@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Linq;
@@ -38,14 +39,44 @@ namespace WebDesignLab4.Controllers
             return View();
         }
 
-        public IActionResult Edit()
+        public async Task<IActionResult> Details(int id)
         {
-            return View();
+            News news = await db.News.FindAsync(id);
+            if (news != null)
+            {
+                return View(news);
+            }
+            return View("NewsNotFound", id);
         }
 
-        public IActionResult Index()
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
         {
-            var data = db.News.Select(n => n).ToList();
+            News news = await db.News.FindAsync(id);
+            if (news != null)
+            {
+                return View(news);
+            }
+            return View("NewsNotFound", id);
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(News news)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(db.News);
+            }
+            db.News.Attach(news);
+            db.Entry(news).Property(n => n.Caption).IsModified = true;
+            await db.SaveChangesAsync();
+            return View("Index", db.News);
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var data = await db.News.Select(n => n).ToListAsync();
             return View(data);
         }
     }
