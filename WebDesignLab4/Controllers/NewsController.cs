@@ -34,9 +34,11 @@ namespace WebDesignLab4.Controllers
             return View(new News() { PostDate = DateTime.Parse(nowRounded) });
         }
 
-        public IActionResult Delete()
+        public async Task<IActionResult> Delete(int id)
         {
-            return View();
+            db.News.Remove(await db.News.FindAsync(id));
+            await db.SaveChangesAsync();
+            return View("Index", db.News);
         }
 
         public async Task<IActionResult> Details(int id)
