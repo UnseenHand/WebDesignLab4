@@ -21,10 +21,13 @@ namespace WebDesignLab4.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(News news)
         {
-            await db.News.AddAsync(news);
-            await db.SaveChangesAsync();
-            ModelState.Clear();
-            return View();
+            if (ModelState.IsValid)
+            {
+                await db.News.AddAsync(news);
+                await db.SaveChangesAsync();
+                ModelState.Clear();
+            }
+            return RedirectToAction("Create");
         }
 
         public IActionResult Create()

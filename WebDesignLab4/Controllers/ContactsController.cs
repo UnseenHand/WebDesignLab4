@@ -19,10 +19,11 @@ namespace WebDesignLab4.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Contacts contact)
         {
+            //if (ModelState.IsValid) { } think about what causes this issue
             await db.Contacts.AddAsync(contact);
             await db.SaveChangesAsync();
             ModelState.Clear();
-            return View();
+            return RedirectToAction("Create");
         }
 
         public IActionResult Create()

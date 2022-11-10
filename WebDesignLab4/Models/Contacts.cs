@@ -5,12 +5,13 @@ namespace WebDesignLab4.Models
 {
     public class Contacts
     {
+        [Key]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter FullName")]
         public string FullName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter Email")]
         [EmailAddress]
         public string Email { get; set; }
 
